@@ -44,3 +44,15 @@ server 'brgerd.homenet.org',
 # setting per server overrides global ssh_options
 
 # fetch(:default_env).merge!(rails_env: :production)
+
+# RVM
+# ===
+set :rvm_type, :user
+set :rvm_ruby_version, '2.0.0-p353@rails4'
+# set :rvm_custom_path, '~/.myveryownrvm'
+
+# Unicorn
+# =======
+after 'deploy:restart', 'unicorn:reload'    # app IS NOT preloaded
+after 'deploy:restart', 'unicorn:restart'   # app preloaded
+after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
