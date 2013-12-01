@@ -17,6 +17,7 @@ set :deploy_to, '/ruby_projects/weihnachten'
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
+set :default_stage, "production"
 # set :keep_releases, 5
 
 namespace :deploy do
