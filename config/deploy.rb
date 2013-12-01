@@ -24,6 +24,15 @@ set :sudo, "sudo -u gerhard -i"
 set :default_stage, "production"
 set :keep_releases, 5
 
+# for RoR 4
+set :default_env, { rvm_bin_path: '~/.rvm/bin' }
+set :bundle_gemfile, -> { release_path.join('Gemfile') }
+set :bundle_dir, -> { shared_path.join('bundle') }
+set :bundle_flags, ''
+set :bundle_without, %w{test development}.join(' ')
+set :bundle_binstubs, -> { shared_path.join('bin') }
+set :bundle_roles, :all
+
 namespace :deploy do
   %w[start stop restart].each do |command|
     desc "#{command} unicorn server"
@@ -31,6 +40,7 @@ namespace :deploy do
       # on roles(:app), except: {no_release: true} do |host|
       #   execute "/etc/init.d/unicorn_#{application} #{command}"
       # end
+      invoke "unicorn:#{ command }"
     end
   end
 

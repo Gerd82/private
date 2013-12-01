@@ -1,4 +1,5 @@
 set :stage, :production
+set :unicorn_roles, :app
 
 # Simple Role Syntax
 # ==================
@@ -53,6 +54,8 @@ set :rvm_ruby_version, '2.0.0-p353@rails4'
 
 # Unicorn
 # =======
-after 'deploy:restart', 'unicorn:reload'    # app IS NOT preloaded
-after 'deploy:restart', 'unicorn:restart'   # app preloaded
-after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
+namespace :deploy do
+  task :restart do
+    invoke 'unicorn:reload'
+  end
+end
