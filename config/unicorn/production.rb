@@ -4,6 +4,6 @@ pid APP_PATH + "/tmp/unicorn.pid"
 stderr_path APP_PATH + "/log/unicorn.stderr.log"
 stdout_path APP_PATH + "/log/unicorn.stdout.log"
 
-listen "/tmp/unicorn.weihnachten.sock"
+listen "/tmp/unicorn.weihnachten.socket"
 worker_processes 2
 timeout 30
