@@ -1,4 +1,4 @@
-APP_PATH = "/ruby_projects/beispielanwendung"
+APP_PATH = "/ruby_projects/weihnachten"
 working_directory APP_PATH
 pid APP_PATH + "/tmp/pids/unicorn.pid"
 stderr_path APP_PATH + "/log/unicorn.stderr.log"

@@ -1,3 +1,5 @@
+require "rvm/capistrano"                               # Load RVM's capistrano plugin.
+
 set :application, 'private'
 set :repo_url, 'git@github.com:Gerd82/private.git'
 
