@@ -1,6 +1,6 @@
 APP_PATH = "/ruby_projects/weihnachten/current"
 working_directory APP_PATH
-pid APP_PATH + "/tmp/pids/unicorn.pid"
+pid APP_PATH + "/tmp/unicorn.pid"
 stderr_path APP_PATH + "/log/unicorn.stderr.log"
 stdout_path APP_PATH + "/log/unicorn.stdout.log"
 
