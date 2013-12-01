@@ -1,9 +1,10 @@
-set :application, 'my_app_name'
-set :repo_url, 'git@example.com:me/my_repo.git'
+set :application, 'private'
+set :repo_url, 'git@github.com:Gerd82/private.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # set :deploy_to, '/var/www/my_app'
+set :deploy_to, '/ruby_projects/weihnachten'
 # set :scm, :git
 
 # set :format, :pretty
