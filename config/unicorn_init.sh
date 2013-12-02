@@ -1,97 +1,77 @@
-#!/bin/sh
+#!/bin/bash
 ### BEGIN INIT INFO
-# Provides:          unicorn
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Manage unicorn server
-# Description:       Start, stop, restart unicorn server for a specific application.
+# Provides: unicorn_rails2-example
+# Required-Start: $all
+# Required-Stop: $network $local_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start the rails2-example unicorns at boot
+# Description: Enable rails2-example.example.com at boot time.
 ### END INIT INFO
+
 set -u
 set -e
 
-# Example init script, this can be used with nginx, too,
-# since nginx and unicorn accept the same signals
-
-# Feel free to change any of the following variables for your app:
-TIMEOUT=${TIMEOUT-60}
-APP_ROOT="/ruby_projects/weihnachten/current"
-APP_NAME="weihnachten"
-PID="$APP_ROOT/tmp/pids/unicorn.pid"
+APP_NAME="rails4"
+APP_ROOT="/ruby_projects/weihnachten"
+PID="$APP_ROOT/shared/pids/unicorn.pid"
 ENV="production"
-RV_RUBY_VERSION="ruby-2.0.0-p356@rails4"
+RVM_RUBY_VERSION="ruby-2.0.0-p356"
 
-GEM_HOME="/usr/local/rvm/gems/$RVM_RUBY_VERSION"
-CMD="$RAILS_ROOT/bin/unicorn -D -c $RAILS_ROOT/config/unicorn/production.rb -E production"
-AS_USER=deployer
-#INIT_CONF=$RAILS_ROOT/config/init.conf
-set -u
+GEM_HOME="/usr/local/rvm/gems/$RVM_RUBY_VERSION@$APP_NAME"
 
-OLD_PIN="$PID.oldbin"
+UNICORN_OPTS="-D -E $ENV -c $APP_ROOT/current/config/unicorn/production.rb"
 
-#test -f "$INIT_CONF" && . $INIT_CONF
+SET_PATH="cd $APP_ROOT/current && rvm use $RVM_RUBY_VERSION@$APP_NAME && export GEM_HOME=$GEM_HOME"
+CMD="$SET_PATH; $GEM_HOME/bin/unicorn $UNICORN_OPTS"
+
+old_pid="$PID.oldbin"
+
+cd $APP_ROOT || exit 1
 
 sig () {
   test -s "$PID" && kill -$1 `cat $PID`
 }
 
 oldsig () {
-  test -s $OLD_PIN && kill -$1 `cat $OLD_PIN`
+  test -s $old_pid && kill -$1 `cat $old_pid`
 }
 
-run () {
-  if [ "$(id -un)" = "$AS_USER" ]; then
-    eval $1
-  else
-    su -c "$1" - $AS_USER
-  fi
-}
+case ${1-help} in
 
-case "$1" in
 start)
   sig 0 && echo >&2 "Already running" && exit 0
-  run "$CMD"
+  su - unicorn -c "$CMD"
   ;;
 stop)
   sig QUIT && exit 0
   echo >&2 "Not running"
   ;;
+
 force-stop)
   sig TERM && exit 0
   echo >&2 "Not running"
   ;;
+
 restart|reload)
   sig HUP && echo reloaded OK && exit 0
   echo >&2 "Couldn't reload, starting '$CMD' instead"
-  run "$CMD"
+  su - unicorn -c "$CMD"
   ;;
-upgrade)
-  if sig USR2 && sleep 2 && sig 0 && oldsig QUIT
-  then
-    n=$TIMEOUT
-    while test -s $OLD_PIN && test $n -ge 0
-    do
-      printf '.' && sleep 1 && n=$(( $n - 1 ))
-    done
-    echo
 
-    if test $n -lt 0 && test -s $OLD_PIN
-    then
-      echo >&2 "$OLD_PIN still exists after $TIMEOUT seconds"
-      exit 1
-    fi
-    exit 0
-  fi
+upgrade)
+  sig USR2 && exit 0
   echo >&2 "Couldn't upgrade, starting '$CMD' instead"
-  run "$CMD"
+  su - unicorn -c "$CMD"
   ;;
-reopen-logs)
-  sig USR1
+
+rotate)
+  sig USR1 && echo rotated logs OK && exit 0
+  echo >&2 "Couldn't rotate logs" && exit 1
   ;;
+
 *)
-  echo >&2 "Usage: $0 <start|stop|restart|upgrade|force-stop|reopen-logs>"
+  echo >&2 "Usage: $0 <start|stop|restart|upgrade|rotate|force-stop>"
   exit 1
   ;;
 esac
-
