@@ -1,8 +1,9 @@
-stderr_path RAILS_ROOT + "/log/unicorn.stderr.log"
-
 RAILS_ROOT = "/ruby_projects/weihnachten/current"
 rails_env = ENV['RAILS_ENV'] || 'production'
 working_directory RAILS_ROOT
+
+stderr_path RAILS_ROOT + "/log/unicorn.stderr.log"
+stdout_path RAILS_ROOT + "/log/unicorn.stdout.log"
 
 worker_processes 4
 preload_app true
@@ -16,9 +17,6 @@ Dir.mkdir(RAILS_ROOT + "/tmp/pids") unless Dir.exists?(RAILS_ROOT + "/tmp/pids")
 
 # working_directory RAILS_ROOT
 pid RAILS_ROOT + "/tmp/pids/unicorn.pid"
-# stderr_path RAILS_ROOT + "/log/unicorn.stderr.log"
-# stdout_path RAILS_ROOT + "/log/unicorn.stdout.log"
-
 
 before_fork do |server, worker|
   pid_old = RAILS_ROOT + '/unicorn.pid.oldbin'
