@@ -8,6 +8,7 @@
 # Short-Description: Manage unicorn server
 # Description:       Start, stop, restart unicorn server for a specific application.
 ### END INIT INFO
+set -u
 set -e
 
 # Example init script, this can be used with nginx, too,
@@ -15,8 +16,13 @@ set -e
 
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
-RAILS_ROOT=/ruby_projects/weihnachten/current
-PID=$RAILS_ROOT/tmp/unicorn.pid
+APP_ROOT="/ruby_projects/weihnachten/current"
+APP_NAME="weihnachten"
+PID="$APP_ROOT/tmp/pids/unicorn.pid"
+ENV="production"
+RV_RUBY_VERSION="ruby-2.0.0-p356@rails4"
+
+GEM_HOME="/usr/local/rvm/gems/$RVM_RUBY_VERSION"
 CMD="$RAILS_ROOT/bin/unicorn -D -c $RAILS_ROOT/config/unicorn/production.rb -E production"
 AS_USER=deployer
 #INIT_CONF=$RAILS_ROOT/config/init.conf

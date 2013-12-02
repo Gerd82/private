@@ -1,3 +1,5 @@
+stderr_path RAILS_ROOT + "/log/unicorn.stderr.log"
+
 RAILS_ROOT = "/ruby_projects/weihnachten/current"
 rails_env = ENV['RAILS_ENV'] || 'production'
 working_directory RAILS_ROOT

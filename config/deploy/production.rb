@@ -49,7 +49,7 @@ server 'brgerd.homenet.org',
 
 # RVM
 # ===
-set :rvm_type, :user
+set :rvm_type, :system
 set :rvm_ruby_version, '2.0.0-p353@rails4'
 # set :rvm_custom_path, '~/.myveryownrvm'
 
