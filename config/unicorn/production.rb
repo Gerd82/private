@@ -1,21 +1,23 @@
 RAILS_ROOT = "/ruby_projects/weihnachten/current"
 rails_env = ENV['RAILS_ENV'] || 'production'
 
-PIDS = RAILS_ROOT + "/tmp/pids"
-Dir.mkdir(PIDS) unless Dir.exists?( PIDS )
-
-working_directory RAILS_ROOT
-pid PIDS + "/unicorn.pid"
-stderr_path RAILS_ROOT + "/log/unicorn.stderr.log"
-stdout_path RAILS_ROOT + "/log/unicorn.stdout.log"
-
-preload_app true
-listen "/tmp/unicorn.weihnachten.socket", :backlog => 64
 worker_processes 4
+preload_app true
 timeout 30
+listen RAILS_ROOT + "/tmp/sockets/unicorn.weihnachten.sock", :backlog => 64
+
+# PIDS = RAILS_ROOT + "/tmp/pids"
+# STDERR.puts "=== #{ PIDS }"
+# Dir.mkdir(PIDS) unless Dir.exists?( PIDS )
+
+# working_directory RAILS_ROOT
+# pid PIDS + "/unicorn.pid"
+# stderr_path RAILS_ROOT + "/log/unicorn.stderr.log"
+# stdout_path RAILS_ROOT + "/log/unicorn.stdout.log"
+
 
 before_fork do |server, worker|
-  pid_old = PIDS + '/unicorn.pid.oldbin'
+  pid_old = RAILS_ROOT + '/unicorn.pid.oldbin'
   if File.exists?(pid_old) && server.pid != pid_old
     begin
       Process.kill("QUIT", File.read(pid_old).to_i)

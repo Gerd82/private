@@ -15,11 +15,11 @@ set -e
 
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
-APP_ROOT=/ruby_projects/weihnachten/current
-PID=$APP_ROOT/tmp/unicorn.pid
-CMD="$APP_ROOT/bin/unicorn -D -c $APP_ROOT/config/unicorn/production.rb -E production"
+RAILS_ROOT=/ruby_projects/weihnachten/current
+PID=$RAILS_ROOT/tmp/unicorn.pid
+CMD="$RAILS_ROOT/bin/unicorn -D -c $RAILS_ROOT/config/unicorn/production.rb -E production"
 AS_USER=deployer
-#INIT_CONF=$APP_ROOT/config/init.conf
+#INIT_CONF=$RAILS_ROOT/config/init.conf
 set -u
 
 OLD_PIN="$PID.oldbin"
