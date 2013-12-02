@@ -10,6 +10,7 @@ listen RAILS_ROOT + "/tmp/sockets/unicorn.weihnachten.sock", :backlog => 64
 # PIDS = RAILS_ROOT + "/tmp/pids"
 # STDERR.puts "=== #{ PIDS }"
 # Dir.mkdir(PIDS) unless Dir.exists?( PIDS )
+Dir.mkdir(RAILS_ROOT + "/tmp/pids") unless Dir.exists?(RAILS_ROOT + "/tmp/pids")
 
 # working_directory RAILS_ROOT
 pid RAILS_ROOT + "/tmp/pids/unicorn.pid"
