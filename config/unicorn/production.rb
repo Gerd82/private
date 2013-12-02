@@ -32,7 +32,7 @@ after_fork do |server, worker|
   ActiveRecord::Base.establish_connection
   begin
     uid, gid = Process.euid, Process.egid
-    user, group = 'unicorn', 'unicorn'
+    user, group = 'deployer', 'staff'
     target_uid = Etc.getpwnam(user).uid
     target_gid = Etc.getgrnam(group).gid
     worker.tmp.chown(target_uid, target_gid)
