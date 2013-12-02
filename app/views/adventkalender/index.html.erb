@@ -1,2 +1,15 @@
+<%= stylesheet_link_tag 'adventkalender' %>
+
 <div id='adventkalender'>
+  <% 4.times do |row| %>
+    <% 6.times do |col| %>
+      <%  top   = 50 + 120 * row
+          left  = 50 + 150 * col %>
+      <div class='fenster' style="top:<%= top %>px;left:<%= left %>px;">
+        <div class='bild'>
+          <%= (row + 1) * (col + 1) %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
 </div>
