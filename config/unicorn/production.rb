@@ -1,26 +1,24 @@
-RAILS_ROOT = "/ruby_projects/weihnachten/current"
+RAILS_ROOT = "/ruby_projects/weihnachten"
 rails_env = ENV['RAILS_ENV'] || 'production'
-working_directory RAILS_ROOT
+working_directory RAILS_ROOT + "/current"
 
-stderr_path RAILS_ROOT + "/log/unicorn.stderr.log"
-stdout_path RAILS_ROOT + "/log/unicorn.stdout.log"
+stderr_path RAILS_ROOT + "/current/log/unicorn.stderr.log"
+stdout_path RAILS_ROOT + "/current/log/unicorn.stdout.log"
 
 worker_processes 4
 preload_app true
 timeout 30
-Dir.mkdir(RAILS_ROOT + "/tmp/sockets") unless Dir.exists?(RAILS_ROOT + "/tmp/sockets")
-listen RAILS_ROOT + "/tmp/sockets/unicorn.weihnachten.sock", :backlog => 64
+Dir.mkdir(RAILS_ROOT + "current/tmp/sockets") unless Dir.exists?(RAILS_ROOT + "current/tmp/sockets")
+listen RAILS_ROOT + "current/tmp/sockets/unicorn.weihnachten.sock", backlog: 64
 
 # PIDS = RAILS_ROOT + "/tmp/pids"
 # STDERR.puts "=== #{ PIDS }"
 # Dir.mkdir(PIDS) unless Dir.exists?( PIDS )
-Dir.mkdir(RAILS_ROOT + "/tmp/pids") unless Dir.exists?(RAILS_ROOT + "/tmp/pids")
-
-# working_directory RAILS_ROOT
-pid RAILS_ROOT + "/tmp/pids/unicorn.pid"
+Dir.mkdir(RAILS_ROOT + "/shared/pids") unless Dir.exists?(RAILS_ROOT + "/shared/pids")
+pid RAILS_ROOT + "/shared/pids/unicorn.pid"
 
 before_fork do |server, worker|
-  pid_old = RAILS_ROOT + '/unicorn.pid.oldbin'
+  pid_old = RAILS_ROOT + '/shared/pids/unicorn.pid.oldbin'
   if File.exists?(pid_old) && server.pid != pid_old
     begin
       Process.kill("QUIT", File.read(pid_old).to_i)
