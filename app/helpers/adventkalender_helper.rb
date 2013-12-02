@@ -1,0 +1,2 @@
+module AdventkalenderHelper
+end

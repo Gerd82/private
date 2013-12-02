@@ -1,0 +1,2 @@
+class AdventkalenderController < ApplicationController
+end
