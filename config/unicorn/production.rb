@@ -8,8 +8,8 @@ stdout_path RAILS_ROOT + "/current/log/unicorn.stdout.log"
 worker_processes 4
 preload_app true
 timeout 30
-Dir.mkdir(RAILS_ROOT + "current/tmp/sockets") unless Dir.exists?(RAILS_ROOT + "current/tmp/sockets")
-listen RAILS_ROOT + "current/tmp/sockets/unicorn.weihnachten.sock", backlog: 64
+Dir.mkdir(RAILS_ROOT + "/current/tmp/sockets") unless Dir.exists?(RAILS_ROOT + "/current/tmp/sockets")
+listen RAILS_ROOT + "/current/tmp/sockets/unicorn.weihnachten.sock", backlog: 64
 
 # PIDS = RAILS_ROOT + "/tmp/pids"
 # STDERR.puts "=== #{ PIDS }"
