@@ -18,7 +18,7 @@ TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/ruby_projects/weihnachten/current
 PID=$APP_ROOT/tmp/unicorn.pid
 CMD="$APP_ROOT/bin/unicorn -D -c $APP_ROOT/config/unicorn/production.rb -E production"
-AS_USER=gerhard
+AS_USER=deployer
 #INIT_CONF=$APP_ROOT/config/init.conf
 set -u
 
