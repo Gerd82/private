@@ -5,7 +5,7 @@
     <% 6.times do |col| %>
       <%  top   = 50 + 120 * row
           left  = 50 + 150 * col %>
-      <div class='fenster' style="top:<%= top %>px;left:<%= left %>px;">
+      <div class='fenster' style="top:<%= top %>px;left:<%= left %>px;visibility:none;" data-row='<%= row %>' data-col='<%= col %>'>
         <div class='bild'>
           <%= (row + 1) * (col + 1) %>
         </div>
